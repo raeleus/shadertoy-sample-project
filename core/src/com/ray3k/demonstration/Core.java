@@ -16,19 +16,18 @@ public class Core extends ApplicationAdapter {
     Texture peachTexture;
     SpriteBatch batch;
     VfxManager vfxManager;
-    WaterDistortionEffect waterEffect;
-    BloomEffect bloomEffect;
+    GlitchEffect glitchEffect;
     
     @Override
     public void create() {
         vfxManager = new VfxManager(Format.RGBA8888);
-        waterEffect = new WaterDistortionEffect(10f, .5f);
-        bloomEffect = new BloomEffect();
+        glitchEffect = new GlitchEffect();
         
         jungleTexture = new Texture("jungle.png");
         peachTexture = new Texture("peach.png");
         batch = new SpriteBatch();
         vfxManager.setBlendingEnabled(true);
+        vfxManager.addEffect(glitchEffect);
     }
     
     @Override
@@ -36,31 +35,16 @@ public class Core extends ApplicationAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
-        bloomEffect.setBloomIntensity((float) Gdx.input.getX() / Gdx.graphics.getWidth() * 20);
-        
         vfxManager.cleanUpBuffers();
         vfxManager.beginInputCapture();
-        vfxManager.addEffect(bloomEffect);
         batch.begin();
         batch.draw(jungleTexture, 0, 0);
-        batch.end();
-        vfxManager.endInputCapture();
-        vfxManager.update(Gdx.graphics.getDeltaTime());
-        vfxManager.applyEffects();
-        vfxManager.renderToScreen();
-        vfxManager.removeEffect(bloomEffect);
-        
-        vfxManager.cleanUpBuffers();
-        vfxManager.beginInputCapture();
-        vfxManager.addEffect(waterEffect);
-        batch.begin();
         batch.draw(peachTexture, Gdx.input.getX() - peachTexture.getWidth() / 2f, Gdx.graphics.getHeight() - Gdx.input.getY() - peachTexture.getHeight() / 2f);
         batch.end();
         vfxManager.endInputCapture();
         vfxManager.update(Gdx.graphics.getDeltaTime());
         vfxManager.applyEffects();
         vfxManager.renderToScreen();
-        vfxManager.removeEffect(waterEffect);
     }
     
     @Override
@@ -69,8 +53,7 @@ public class Core extends ApplicationAdapter {
         peachTexture.dispose();
         batch.dispose();
         vfxManager.dispose();
-        waterEffect.dispose();
-        bloomEffect.dispose();
+        glitchEffect.dispose();
     }
     
     @Override
