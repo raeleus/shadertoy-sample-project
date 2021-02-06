@@ -16,11 +16,15 @@ public class Core extends ApplicationAdapter {
     Texture peachTexture;
     SpriteBatch batch;
     VfxManager vfxManager;
+    WaterDistortionEffect waterEffect;
     BloomEffect bloomEffect;
     
     @Override
     public void create() {
         vfxManager = new VfxManager(Format.RGBA8888);
+        waterEffect = new WaterDistortionEffect(10f, .5f);
+        vfxManager.addEffect(waterEffect);
+        
         bloomEffect = new BloomEffect();
         vfxManager.addEffect(bloomEffect);
         
@@ -40,7 +44,6 @@ public class Core extends ApplicationAdapter {
         vfxManager.cleanUpBuffers();
         vfxManager.beginInputCapture();
         batch.begin();
-        batch.setColor(Color.WHITE);
         batch.draw(jungleTexture, 0, 0);
         batch.draw(peachTexture, Gdx.input.getX() - peachTexture.getWidth() / 2f, Gdx.graphics.getHeight() - Gdx.input.getY() - peachTexture.getHeight() / 2f);
         batch.end();
@@ -50,16 +53,17 @@ public class Core extends ApplicationAdapter {
     }
     
     @Override
-    public void resize(int width, int height) {
-        vfxManager.resize(width, height);
-    }
-    
-    @Override
     public void dispose() {
         jungleTexture.dispose();
         peachTexture.dispose();
         batch.dispose();
         vfxManager.dispose();
+        waterEffect.dispose();
         bloomEffect.dispose();
+    }
+    
+    @Override
+    public void resize(int width, int height) {
+        vfxManager.resize(width, height);
     }
 }
