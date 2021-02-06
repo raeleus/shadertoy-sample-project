@@ -34,9 +34,11 @@ public class Core extends ApplicationAdapter {
         shader.setUniformf("u_amount", 10);
         shader.setUniformf("u_speed", .5f);
         shader.setUniformf("u_time", time);
-        batch.setShader(shader);
+        
+        batch.setShader(null);
         batch.begin();
         batch.draw(jungleTexture, 0, 0);
+        batch.setShader(shader);
         batch.draw(peachTexture, Gdx.input.getX() - peachTexture.getWidth() / 2f, Gdx.graphics.getHeight() - Gdx.input.getY() - peachTexture.getHeight() / 2f);
         batch.end();
 	}
