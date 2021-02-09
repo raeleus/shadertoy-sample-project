@@ -31,14 +31,14 @@ public class Core extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         time += Gdx.graphics.getDeltaTime();
-        shader.setUniformf("u_amount", 10);
-        shader.setUniformf("u_speed", .5f);
-        shader.setUniformf("u_time", time);
         
         batch.setShader(null);
         batch.begin();
         batch.draw(jungleTexture, 0, 0);
         batch.setShader(shader);
+        shader.setUniformf("u_amount", 10);
+        shader.setUniformf("u_speed", .5f);
+        shader.setUniformf("u_time", time);
         batch.draw(peachTexture, Gdx.input.getX() - peachTexture.getWidth() / 2f, Gdx.graphics.getHeight() - Gdx.input.getY() - peachTexture.getHeight() / 2f);
         batch.end();
 	}
