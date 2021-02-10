@@ -32,6 +32,7 @@ public class Core extends ApplicationAdapter {
         
         time += Gdx.graphics.getDeltaTime();
         batch.setShader(shader);
+        shader.bind();
         shader.setUniformf("u_amount", 10);
         shader.setUniformf("u_speed", .5f);
         shader.setUniformf("u_time", time);
